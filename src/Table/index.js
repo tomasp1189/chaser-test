@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import TableRow from './TableRow';
+import TableCell from './TableCell';
+import TableHead from './TableHead';
 
 const columns = [
   { columnId: 'id', name: '#', type: 'text' },
-  { columnId: 'email', name: 'Email', type: 'text' },
+  { columnId: 'email', name: 'Email', type: 'email' },
   { columnId: 'paidInvoices', name: 'Paid Invoices', type: 'number' },
   { columnId: 'totalAmountPaid', name: 'Total Amount Paid', type: 'number' },
   { columnId: 'unpaidInvoices', name: 'Unpaid Invoices', type: 'number' },
@@ -23,20 +26,24 @@ const Table = ({ rows }) => {
   const renderRows = () => {
     return rows.map(row => {
       return (
-        <tr key={row.id}>
+        <TableRow>
           {columns.map((column, index) => {
             return (
-              <td key={`cell-${row.id}-${index}`}>{row[column.columnId]}</td>
+              <TableCell
+                key={`cell-${row.id}-${index}`}
+                row={row}
+                column={column}
+              />
             );
           })}
-        </tr>
+        </TableRow>
       );
     });
   };
 
   return (
     <table>
-      <thead>{renderTableHeader()}</thead>
+      <TableHead columns={columns} />
       <tbody>{renderRows()}</tbody>
     </table>
   );

@@ -31,3 +31,15 @@
     transform: rotate(360deg);
   }
 }
+
+table {
+  border-collapse: collapse;
+}
+
+table, tr {
+  border: 1px solid black;
+}
+
+td, th {
+  padding: 10px 
+}
