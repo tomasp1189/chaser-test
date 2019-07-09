@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/chaser-test/static/css/main.16f400df.chunk.css",
+    "main.js": "/chaser-test/static/js/main.928096bf.chunk.js",
+    "main.js.map": "/chaser-test/static/js/main.928096bf.chunk.js.map",
+    "runtime~main.js": "/chaser-test/static/js/runtime~main.af81ee47.js",
+    "runtime~main.js.map": "/chaser-test/static/js/runtime~main.af81ee47.js.map",
+    "static/js/2.99a4a834.chunk.js": "/chaser-test/static/js/2.99a4a834.chunk.js",
+    "static/js/2.99a4a834.chunk.js.map": "/chaser-test/static/js/2.99a4a834.chunk.js.map",
+    "index.html": "/chaser-test/index.html",
+    "precache-manifest.704f1118834d5dd3dc374f8f3fe0a824.js": "/chaser-test/precache-manifest.704f1118834d5dd3dc374f8f3fe0a824.js",
+    "service-worker.js": "/chaser-test/service-worker.js",
+    "static/css/main.16f400df.chunk.css.map": "/chaser-test/static/css/main.16f400df.chunk.css.map"
+  }
+}
