@@ -15,21 +15,27 @@ const columns = [
 
 const Table = ({ rows }) => {
   const renderRows = () => {
-    return rows.map(row => {
-      return (
-        <TableRow>
-          {columns.map((column, index) => {
-            return (
-              <TableCell
-                key={`cell-${row.id}-${index}`}
-                row={row}
-                column={column}
-              />
-            );
-          })}
-        </TableRow>
-      );
-    });
+    return rows.length === 0 ? (
+      <tr>
+        <td colSpan={columns.length}>Loading...</td>
+      </tr>
+    ) : (
+      rows.map(row => {
+        return (
+          <TableRow>
+            {columns.map((column, index) => {
+              return (
+                <TableCell
+                  key={`cell-${row.id}-${index}`}
+                  row={row}
+                  column={column}
+                />
+              );
+            })}
+          </TableRow>
+        );
+      })
+    );
   };
 
   return (
