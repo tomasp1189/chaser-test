@@ -14,15 +14,6 @@ const columns = [
 ];
 
 const Table = ({ rows }) => {
-  const renderTableHeader = () => {
-    return (
-      <tr>
-        {columns.map(column => {
-          return <th key={column.columnId}>{column.name}</th>;
-        })}
-      </tr>
-    );
-  };
   const renderRows = () => {
     return rows.map(row => {
       return (
