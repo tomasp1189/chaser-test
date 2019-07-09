@@ -46,24 +46,7 @@ Table.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.object)
 };
 Table.defaultProps = {
-  rows: [
-    {
-      id: 'adsfasdfg',
-      email: 'test@test.com',
-      paid_invoices: 0,
-      total_amount_paid: 0,
-      unpaid_invoices: 0,
-      total_amount_due: 0
-    },
-    {
-      id: 'a342dsfasdfg',
-      email: 'test@test.com',
-      paid_invoices: 0,
-      total_amount_paid: 0,
-      unpaid_invoices: 0,
-      total_amount_due: 0
-    }
-  ]
+  rows: []
 };
 
 export default Table;

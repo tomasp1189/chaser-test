@@ -12,9 +12,13 @@ const TableContainer = props => {
   useEffect(() => {
     const getCustomers = async () => {
       try {
-        let url = 'https://db8111f2.ngrok.io/api/customers?limit=3';
-        const { data } = await axios.get(url);
-        setCustomers(_.mapKeys(data, 'id'));
+        let url = 'https://api.stripe.com/v1/customers?limit=100';
+        const { data } = await axios.get(url, {
+          headers: {
+            Authorization: 'Bearer sk_test_4eC39HqLyjWDarjtT1zdp7dc'
+          }
+        });
+        setCustomers(_.mapKeys(data.data, 'id'));
       } catch (error) {
       } finally {
         return;
@@ -31,14 +35,14 @@ const TableContainer = props => {
       try {
         const customersLength = Object.keys(customers).length;
         if (customersLength === 0) return;
-        let url = 'https://db8111f2.ngrok.io/api/invoices';
-        let invoiceData = [];
-        for (let index = 0; index < customersLength; index++) {
-          const customerId = Object.keys(customers)[index];
-          const customer = customers[customerId];
-          const { data } = await axios.get(`${url}?customer=${customer.id}`);
-          invoiceData = [...invoiceData, ...data];
-        }
+        let url = 'https://api.stripe.com/v1/invoices';
+        let {
+          data: { data: invoiceData }
+        } = await axios.get(`${url}?limit=100`, {
+          headers: {
+            Authorization: 'Bearer sk_test_4eC39HqLyjWDarjtT1zdp7dc'
+          }
+        });
         setInvoices(invoiceData);
       } catch (error) {
       } finally {
@@ -49,43 +53,31 @@ const TableContainer = props => {
     getInvoices();
   }, [customers]);
 
-  //const [rows, setRows] = useState([]);
-
-  // const buildRows = () => {
-
-  // };
-
   const rows = useMemo(() => {
     if (invoices.length === 0) return;
-    debugger;
-    const rows = _.chain(invoices)
-      .groupBy('customer')
-      .map((groupedInvoices, id) => {
-        const totals = _.reduce(
-          groupedInvoices,
-          (totals, invoice) => {
-            totals.paidInvoices = totals.paidInvoices + (invoice.paid ? 1 : 0);
-            totals.totalAmountPaid =
-              totals.paidInvoices + (invoice.paid ? invoice.amount_paid : 0);
-            totals.unpaidInvoices =
-              totals.unpaidInvoices + (!invoice.paid ? 1 : 0);
-            totals.totalAmountDue =
-              totals.paidInvoices + (!invoice.paid ? invoice.amount_due : 0);
-            return totals;
-          },
-          {
-            paidInvoices: 0,
-            totalAmountPaid: 0,
-            unpaidInvoices: 0,
-            totalAmountDue: 0
-          }
-        );
-        const email = customers[id].email;
-        return { id, email, ...totals };
-      })
-      .value();
-    debugger;
-    return rows;
+    const rows = {};
+    invoices.forEach(invoice => {
+      let row = rows[invoice.customer];
+      // if row doesn't exist yet we set initial values
+      if (!row)
+        row = {
+          id: invoice.customer,
+          email: invoice.customer_email,
+          paidInvoices: 0,
+          totalAmountPaid: 0,
+          unpaidInvoices: 0,
+          totalAmountDue: 0
+        };
+
+      row.paidInvoices = row.paidInvoices + (invoice.paid ? 1 : 0);
+      row.totalAmountPaid =
+        row.paidInvoices + (invoice.paid ? invoice.amount_paid : 0);
+      row.unpaidInvoices = row.unpaidInvoices + (!invoice.paid ? 1 : 0);
+      row.totalAmountDue =
+        row.paidInvoices + (!invoice.paid ? invoice.amount_due : 0);
+      rows[invoice.customer] = row;
+    });
+    return _.map(rows, row => row);
   }, [customers, invoices]);
   return <Table rows={rows} />;
 };
